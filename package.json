@@ -1,0 +1,26 @@
+{
+  "name": "restapi",
+  "version": "1.0.0",
+  "description": "This is an api which helps to track your progress and make interesting notes and store them into the database by using just an url",
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/RoHit4100/RestFull-Api-toTrackUrPrgress.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/RoHit4100/RestFull-Api-toTrackUrPrgress/issues"
+  },
+  "homepage": "https://github.com/RoHit4100/RestFull-Api-toTrackUrPrgress#readme",
+  "dependencies": {
+    "body-parser": "^1.20.1",
+    "express": "^4.18.2",
+    "lodash": "^4.17.21",
+    "mongoose": "^6.8.2"
+  }
+}
