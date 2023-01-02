@@ -30,7 +30,7 @@ app.route("/articles")
         });
     })
     .post(function (req, res) {
-        const title = req.body.title;
+        const title = _.capitalize(req.body.title);
         const content = req.body.content;
         const article = new Article({
             title: title,
@@ -40,7 +40,7 @@ app.route("/articles")
             if (err) {
                 console.log(err);
             } else {
-                console.log("Successfully added into the database");
+                res.send("Successfully added into the database");
             }
         });
     })
@@ -49,12 +49,59 @@ app.route("/articles")
             if (err) {
                 console.log(err);
             } else {
-                console.log("all entries are deleted");
+                res.send("All entries are deleted");
             }
 
         })
+    });
+// For a particular article 
+app.route("/articles/:userArticle")
+    .get(function (req, res) {
+        const userArticle = req.params.userArticle;
+        Article.findOne({ title: userArticle }, function (err, foundArticle) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(foundArticle);
+            }
+        })
     })
-
+    .put(function (req, res) {
+        Article.updateOne(
+            { title: req.params.userArticle },
+            { title: _.capitalize(req.body.title), content: req.body.content },
+            { new: true },
+            function (err) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.send("Successfully Updated");
+                }
+            }
+        )
+    })
+    .patch(function (req, res) {
+        Article.updateOne(
+            { title: req.params.userArticle },
+            { $set: req.body },
+            function (err) {
+                if (err) {
+                    console.log(err);
+                } else {
+                    res.send("Successfully updated given parameter");
+                }
+            }
+        )
+    })
+    .delete(function (req, res) {
+        Article.deleteOne({ title: req.params.userArticle }, function (err) {
+            if (err) {
+                console.log(err);
+            } else {
+                res.send("Successfully deleted " + req.params.userArticle)
+            }
+        })
+    })
 app.listen(port, function () {
     console.log("Server is running on port " + port);
 })
