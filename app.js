@@ -22,8 +22,12 @@ const Article = mongoose.model("Article", articleSchema);
 app.route("/articles")
     .get(function (req, res) {
         Article.find(function (err, foundArticles) {
-            res.send(foundArticles);
-        })
+            if (err) {
+                console.log(err);
+            } else {
+                res.send(foundArticles);
+            }
+        });
     })
     .post(function (req, res) {
         const title = req.body.title;
@@ -32,10 +36,25 @@ app.route("/articles")
             title: title,
             content: content
         });
-        article.save();
-        console.log(article);
+        article.save(function (err) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log("Successfully added into the database");
+            }
+        });
+    })
+    .delete(function (req, res) {
+        Article.deleteMany({}, function (err) {
+            if (err) {
+                console.log(err);
+            } else {
+                console.log("all entries are deleted");
+            }
+
+        })
     })
 
 app.listen(port, function () {
-    console.log("Server is running on port" + port);
+    console.log("Server is running on port " + port);
 })
